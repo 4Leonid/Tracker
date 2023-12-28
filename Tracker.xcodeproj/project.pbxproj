@@ -12,6 +12,13 @@
 		BF6636B12B3DBE5300DA9997 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF6636B02B3DBE5300DA9997 /* ViewController.swift */; };
 		BF6636B62B3DBE5500DA9997 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BF6636B52B3DBE5500DA9997 /* Assets.xcassets */; };
 		BF6636B92B3DBE5500DA9997 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BF6636B72B3DBE5500DA9997 /* LaunchScreen.storyboard */; };
+		BF6636C22B3DC00900DA9997 /* Tracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF6636C12B3DC00900DA9997 /* Tracker.swift */; };
+		BF6636C42B3DC05900DA9997 /* TrackerCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF6636C32B3DC05900DA9997 /* TrackerCategory.swift */; };
+		BF6636C62B3DC07A00DA9997 /* TrackerRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF6636C52B3DC07A00DA9997 /* TrackerRecord.swift */; };
+		BF6636C82B3DC0AA00DA9997 /* WeekDays.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF6636C72B3DC0AA00DA9997 /* WeekDays.swift */; };
+		BF6636CB2B3DC0E900DA9997 /* TrackerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF6636CA2B3DC0E900DA9997 /* TrackerCell.swift */; };
+		BF6636CD2B3DC10A00DA9997 /* SettingTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF6636CC2B3DC10A00DA9997 /* SettingTableCell.swift */; };
+		BF6636CF2B3DC12C00DA9997 /* ScheduleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF6636CE2B3DC12C00DA9997 /* ScheduleCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +29,13 @@
 		BF6636B52B3DBE5500DA9997 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BF6636B82B3DBE5500DA9997 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BF6636BA2B3DBE5500DA9997 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BF6636C12B3DC00900DA9997 /* Tracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tracker.swift; sourceTree = "<group>"; };
+		BF6636C32B3DC05900DA9997 /* TrackerCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCategory.swift; sourceTree = "<group>"; };
+		BF6636C52B3DC07A00DA9997 /* TrackerRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerRecord.swift; sourceTree = "<group>"; };
+		BF6636C72B3DC0AA00DA9997 /* WeekDays.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekDays.swift; sourceTree = "<group>"; };
+		BF6636CA2B3DC0E900DA9997 /* TrackerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCell.swift; sourceTree = "<group>"; };
+		BF6636CC2B3DC10A00DA9997 /* SettingTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableCell.swift; sourceTree = "<group>"; };
+		BF6636CE2B3DC12C00DA9997 /* ScheduleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +68,8 @@
 		BF6636AB2B3DBE5300DA9997 /* Tracker */ = {
 			isa = PBXGroup;
 			children = (
+				BF6636C92B3DC0D700DA9997 /* Cells */,
+				BF6636C02B3DBFF000DA9997 /* Models */,
 				BF6636AC2B3DBE5300DA9997 /* AppDelegate.swift */,
 				BF6636AE2B3DBE5300DA9997 /* SceneDelegate.swift */,
 				BF6636B02B3DBE5300DA9997 /* ViewController.swift */,
@@ -62,6 +78,27 @@
 				BF6636BA2B3DBE5500DA9997 /* Info.plist */,
 			);
 			path = Tracker;
+			sourceTree = "<group>";
+		};
+		BF6636C02B3DBFF000DA9997 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				BF6636C12B3DC00900DA9997 /* Tracker.swift */,
+				BF6636C32B3DC05900DA9997 /* TrackerCategory.swift */,
+				BF6636C52B3DC07A00DA9997 /* TrackerRecord.swift */,
+				BF6636C72B3DC0AA00DA9997 /* WeekDays.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		BF6636C92B3DC0D700DA9997 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				BF6636CA2B3DC0E900DA9997 /* TrackerCell.swift */,
+				BF6636CC2B3DC10A00DA9997 /* SettingTableCell.swift */,
+				BF6636CE2B3DC12C00DA9997 /* ScheduleCell.swift */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -134,9 +171,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BF6636CB2B3DC0E900DA9997 /* TrackerCell.swift in Sources */,
+				BF6636C22B3DC00900DA9997 /* Tracker.swift in Sources */,
 				BF6636B12B3DBE5300DA9997 /* ViewController.swift in Sources */,
 				BF6636AD2B3DBE5300DA9997 /* AppDelegate.swift in Sources */,
+				BF6636CF2B3DC12C00DA9997 /* ScheduleCell.swift in Sources */,
 				BF6636AF2B3DBE5300DA9997 /* SceneDelegate.swift in Sources */,
+				BF6636C42B3DC05900DA9997 /* TrackerCategory.swift in Sources */,
+				BF6636C82B3DC0AA00DA9997 /* WeekDays.swift in Sources */,
+				BF6636C62B3DC07A00DA9997 /* TrackerRecord.swift in Sources */,
+				BF6636CD2B3DC10A00DA9997 /* SettingTableCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
