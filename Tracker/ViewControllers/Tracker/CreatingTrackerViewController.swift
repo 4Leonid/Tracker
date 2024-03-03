@@ -94,4 +94,3 @@ private extension CreatingTrackerViewController {
         delegate?.didCreateTracker(with: .event)
     }
 }
-
