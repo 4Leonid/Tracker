@@ -37,7 +37,7 @@ final class TrackerRecordStore: NSObject {
     request.returnsObjectsAsFaults = false
     request.predicate = NSPredicate(
       format: "%K == %@",
-      #keyPath(TrackerRecordCoreData.date), date as NSDate)
+      #keyPath(TrackerRecordCoreData.date), date.timeLess() as NSDate)
     let recordFetch = try context.fetch(request)
     let record = try recordFetch.map { try createRecord(from: $0) }
     completedTrackers = Set(record)
@@ -48,7 +48,7 @@ final class TrackerRecordStore: NSObject {
     let trackerData = try trackerStore.takeTracker(for: record.trackerId)
     let recordData = TrackerRecordCoreData(context: context)
     recordData.recordId = record.id.uuidString
-    recordData.date = record.date
+    recordData.date = record.date.timeLess()
     recordData.tracker = trackerData
     try context.save()
     completedTrackers.insert(record)
@@ -71,7 +71,7 @@ final class TrackerRecordStore: NSObject {
   private func createRecord(from data: TrackerRecordCoreData) throws -> TrackerRecord {
     guard let stringID = data.recordId,
           let id = UUID(uuidString: stringID),
-          let date = data.date,
+          let date = data.date?.timeLess(),
           let trackerData = data.tracker,
           let tracker = try? trackerStore.createTracker(from: trackerData)
     else { throw TrackerError.decodeError }

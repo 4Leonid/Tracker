@@ -248,7 +248,7 @@ extension TrackerViewController: UICollectionViewDataSource {
     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TrackerCell.identifier, for: indexPath) as? TrackerCell,
           let tracker = trackerStore.object(at: indexPath)
     else { return UICollectionViewCell() }
-    let active = completedTrackers.contains { $0.date == currentDate && $0.trackerId == tracker.id }
+    let active = completedTrackers.contains { $0.date.timeLess() == currentDate.timeLess() && $0.trackerId == tracker.id }
     cell.configure(with: tracker, days: tracker.daysCount, active: active)
     cell.delegate = self
     return cell

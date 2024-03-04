@@ -12,6 +12,7 @@
 		BF50570F2B74162F00D9DAE7 /* TrackerCategoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF50570E2B74162F00D9DAE7 /* TrackerCategoryStore.swift */; };
 		BF5057112B74164500D9DAE7 /* TrackerRecordStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF5057102B74164500D9DAE7 /* TrackerRecordStore.swift */; };
 		BF5057172B80854F00D9DAE7 /* UIColorConvert.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF5057162B80854F00D9DAE7 /* UIColorConvert.swift */; };
+		BF50581E2B960C0900D9DAE7 /* Date+Extention.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF50581D2B960C0900D9DAE7 /* Date+Extention.swift */; };
 		BF6636AD2B3DBE5300DA9997 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF6636AC2B3DBE5300DA9997 /* AppDelegate.swift */; };
 		BF6636AF2B3DBE5300DA9997 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF6636AE2B3DBE5300DA9997 /* SceneDelegate.swift */; };
 		BF6636B12B3DBE5300DA9997 /* TrackerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF6636B02B3DBE5300DA9997 /* TrackerViewController.swift */; };
@@ -47,6 +48,7 @@
 		BF50570E2B74162F00D9DAE7 /* TrackerCategoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCategoryStore.swift; sourceTree = "<group>"; };
 		BF5057102B74164500D9DAE7 /* TrackerRecordStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerRecordStore.swift; sourceTree = "<group>"; };
 		BF5057162B80854F00D9DAE7 /* UIColorConvert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorConvert.swift; sourceTree = "<group>"; };
+		BF50581D2B960C0900D9DAE7 /* Date+Extention.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extention.swift"; sourceTree = "<group>"; };
 		BF6636A92B3DBE5300DA9997 /* Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF6636AC2B3DBE5300DA9997 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BF6636AE2B3DBE5300DA9997 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -213,6 +215,7 @@
 				BF6636EB2B3DC59D00DA9997 /* Int+Extention.swift */,
 				BF6636F12B56836500DA9997 /* CellSelectionProtocol.swift */,
 				BF5057162B80854F00D9DAE7 /* UIColorConvert.swift */,
+				BF50581D2B960C0900D9DAE7 /* Date+Extention.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -299,6 +302,7 @@
 				BF5057172B80854F00D9DAE7 /* UIColorConvert.swift in Sources */,
 				BF6636B12B3DBE5300DA9997 /* TrackerViewController.swift in Sources */,
 				BF6636DB2B3DC41500DA9997 /* ScheduleViewController.swift in Sources */,
+				BF50581E2B960C0900D9DAE7 /* Date+Extention.swift in Sources */,
 				BF6636AD2B3DBE5300DA9997 /* AppDelegate.swift in Sources */,
 				BF50570D2B74161A00D9DAE7 /* TrackerStore.swift in Sources */,
 				BF6636CF2B3DC12C00DA9997 /* ScheduleCell.swift in Sources */,
