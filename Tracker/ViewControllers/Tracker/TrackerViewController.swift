@@ -85,7 +85,7 @@ final class TrackerViewController: UIViewController {
   private let trackerRecordStore = TrackerRecordStore()
   private var searchText = "" {
     didSet {
-      try? trackerStore.currentlyTrackers(date: currentDate, searchString: searchText)
+      try? trackerStore.currentlyTrackers(date: currentDate.timeLess(), searchString: searchText)
     }
   }
   private let geomentricParams = UICollectionView.GeometricParams(
@@ -106,8 +106,8 @@ final class TrackerViewController: UIViewController {
     placeholderCheckForEmpty()
     placeholderCheckForSearch()
     setupDelegates()
-    try? trackerStore.currentlyTrackers(date: currentDate, searchString: searchText)
-    try? trackerRecordStore.takeCompletedTrackers(with: currentDate)
+    try? trackerStore.currentlyTrackers(date: currentDate.timeLess(), searchString: searchText)
+    try? trackerRecordStore.takeCompletedTrackers(with: currentDate.timeLess())
     showFilterButton()
   }
   
@@ -210,7 +210,7 @@ extension TrackerViewController {
 extension TrackerViewController: TrackerCellDelegate {
   func didTapExecButton(cell: TrackerCell, with tracker: Tracker) {
     if execButtonIsEnableValue == true {
-      if let recordingTracker = completedTrackers.first(where: { $0.date == currentDate && $0.trackerId == tracker.id }) {
+      if let recordingTracker = completedTrackers.first(where: { $0.date.timeLess() == currentDate.timeLess() && $0.trackerId == tracker.id }) {
         try? trackerRecordStore.delete(recordingTracker)
         cell.changeImageButton(active: false)
         cell.addOrSubtrack(value: false)
@@ -225,7 +225,7 @@ extension TrackerViewController: TrackerCellDelegate {
       let dateFormatter = DateFormatter()
       dateFormatter.dateFormat = "dd.MM.yyyy"
       let todayFormDate = dateFormatter.string(from: date)
-      let selectedDate = dateFormatter.string(from: currentDate)
+      let selectedDate = dateFormatter.string(from: currentDate.timeLess())
       let alert = UIAlertController(title: "Сегодня - \(todayFormDate)г.", message: "Нельзя выполнить действие - \(selectedDate)г., т.к. данный период времени еще не наступил!", preferredStyle: .alert)
       alert.addAction(UIAlertAction(title: "Понятно", style: .default, handler: nil))
       present(alert, animated: true, completion: nil)
