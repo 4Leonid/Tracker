@@ -155,7 +155,7 @@ final class SettingTrackerViewController: UIViewController {
     return short.joined(separator: ", ")
   }
   
-  private lazy var category: TrackerCategory? = trackerCategoryStore.category.randomElement() {
+  private lazy var category: TrackerCategory? = nil {
     didSet {
       checkButtonValidation()
     }
@@ -365,13 +365,19 @@ extension SettingTrackerViewController: UITableViewDataSource {
 extension SettingTrackerViewController: UITableViewDelegate {
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    if indexPath.row != 0 {
+    switch indexPath.row {
+    case 0:
+      let categoryVC = CategoryViewController(category: category)
+      categoryVC.delegate = self
+      let navigationController = UINavigationController(rootViewController: categoryVC)
+      present(navigationController, animated: true)
+    case 1:
       guard let sked = data.sked else { return }
       let skedViewController = ScheduleViewController(markedWeekdays: sked)
       skedViewController.delegate = self
       let navigationController = UINavigationController(rootViewController: skedViewController)
       present(navigationController, animated: true)
-    } else {
+    default:
       return
     }
   }
@@ -483,6 +489,14 @@ extension SettingTrackerViewController: ScheduleViewControllerDelegate {
   }
 }
 
+extension SettingTrackerViewController: CategoryViewControllerDelegate {
+  func didConfirm(category: TrackerCategory) {
+    self.category = category
+    optionsTableView.reloadData()
+    dismiss(animated: true)
+  }
+}
+
 // MARK: - Extension TextField
 extension SettingTrackerViewController: UITextFieldDelegate {
   func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -490,5 +504,6 @@ extension SettingTrackerViewController: UITextFieldDelegate {
     return true
   }
 }
+
 
 
