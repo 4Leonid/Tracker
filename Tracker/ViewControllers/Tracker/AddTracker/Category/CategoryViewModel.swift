@@ -47,6 +47,7 @@ final class CategoryViewModel: TrackerCategoryStoreDelegate {
   
   func selectCategories(indexPath: IndexPath) {
     selectedCategory = categories[indexPath.row]
+    delegate?.didUpdateCategories()
   }
   
   func deleteCategory(category: TrackerCategory) {
