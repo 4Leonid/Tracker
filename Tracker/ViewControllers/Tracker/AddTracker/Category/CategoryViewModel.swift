@@ -7,8 +7,6 @@
 
 import Foundation
 
-import Foundation
-
 protocol CategoryViewModelDelegate: AnyObject {
   func didUpdateCategories()
   func didSelectCategory(category: TrackerCategory)

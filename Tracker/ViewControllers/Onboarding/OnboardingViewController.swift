@@ -22,18 +22,6 @@ final class OnboardingViewController: UIPageViewController {
     return [firstOnboardingPage, secondOnboardingPage]
   }()
   
-  private lazy var button: UIButton = {
-    let button = UIButton()
-    button.translatesAutoresizingMaskIntoConstraints = false
-    button.backgroundColor = .yaBlack
-    button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
-    button.setTitle("Вот это технологии!", for: .normal)
-    button.setTitleColor(.yaWhite, for: .normal)
-    button.layer.cornerRadius = 16
-    button.addTarget(nil, action: #selector(didTapButton), for: .touchUpInside)
-    return button
-  }()
-  
   private lazy var pageControl: UIPageControl = {
     let pageControl = UIPageControl()
     pageControl.translatesAutoresizingMaskIntoConstraints = false
@@ -53,16 +41,12 @@ final class OnboardingViewController: UIPageViewController {
   
   // MARK: - Layout & Setting
   private func addSubViews() {
-    [button, pageControl].forEach { view.addSubview($0) }
+    view.addSubview(pageControl)
   }
   
   private func applyConstraint() {
     NSLayoutConstraint.activate([
-      button.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-      button.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-      button.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -50),
-      button.heightAnchor.constraint(equalToConstant: 60),
-      pageControl.bottomAnchor.constraint(equalTo: button.topAnchor, constant: -24),
+      pageControl.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -134),
       pageControl.centerXAnchor.constraint(equalTo: view.centerXAnchor)
     ])
   }
