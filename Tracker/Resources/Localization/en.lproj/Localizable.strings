@@ -1,0 +1,91 @@
+/* 
+  Localizable.strings
+  Tracker
+
+  Created by Леонид Турко on 14.03.2024.
+  
+*/
+
+// TrackerViewController
+"trackerVC_title" = "Trackers";
+"trackerVC_search" = "Search";
+"trackerVC_placeholderTextDefault" = "What will we track?";
+"trackerVC_placeholderTextSearch" = "Nothing found";
+"trackerVC_filter" = "Filters";
+"trackerVC_datepicker" = "en_GB";
+"trackerVC_alertTitle" = "Today is %@";
+"trackerVC_alertMessage" = "Action cannot be completed on %@";
+"trackerVC_alertActionTitle" = "Ok";
+"trackerVC_alertActionPin" = "Pin";
+"trackerVC_alertActionUnPin" = "Unpin";
+"trackerVC_alertActionMessage" = "Are you sure you want to delete the tracker?";
+
+// StatisticViewController
+"statisticVC_title" = "Statistics";
+"statisticVC_placeholderText" = "Nothing to analyze";
+"statisticVC_trackersCompleted" = "Trackers completed";
+
+// CreatingTrackerViewController
+"creatingVC_habitButton" = "Habit";
+"creatingVC_irregularButton" = "Irregular event";
+"creatingVC_title" = "Creating a tracker";
+"creatingVC_HabitTitle" = "New habit";
+"creatingVC_IrregularTitle" = "New irregular event";
+
+// SettingTrackerViewController
+"settingTrackerVC_nameTrackerPlaceholder" = "Enter tracker name";
+"settingTrackerVC_limitMessage" = "Limit 38 characters";
+"settingTrackerVC_cancelButton" = "Cancel";
+"settingTrackerVC_createButton" = "Create";
+"settingTrackerVC_skedString" = "Every day";
+"settingTrackerVC_categoryParamLabel" = "Category";
+"settingTrackerVC_skedParamLabel" = "Schedule";
+"settingTrackerVC_emojiTitle" = "Emoji";
+"settingTrackerVC_colorTitle" = "Color";
+"settingTrackerVC_editTrackerTitle" = "Edit habit";
+
+// CategoryViewController
+"categoryVC_addCategoryButton" = "Add category";
+"categoryVC_placeholderText" = "Habits and events can be \n combined by meaning";
+"categoryVC_alertMessageWhenDeleteCategory" = "Are you sure this category is not needed?";
+"categoryVC_alertActionDelete" = "Delete";
+"categoryVC_alertActionCancel" = "Cancel";
+"categoryVC_alertActionEdit" = "Edit";
+
+// AddCategoryViewController
+"addCategoryVC_nameCategoryPlaceholder" = "Enter category name";
+"addCategoryVC_confirmButtonText" = "Done";
+"addCategoryVC_title" = "New category";
+
+// OnboardingViewController
+"onboardingVC_firstPageText" = "Track only what you want";
+"onboardingVC_secondPageText" = "Even if it's not liters of water and yoga";
+"onboardingVC_button" = "These are the technologies!";
+
+// TrackerStore
+"trackerStore_attach" = "Pinned";
+
+// FilterViewController
+"filterVC_title" = "Filters";
+"filterVC_all" = "All trackers";
+"filterVC_today" = "Trackers for today";
+"filterVC_finished" = "Completed";
+"filterVC_unfinished" = "Not completed";
+
+// WeekDays
+"monday" = "Monday";
+"tuesday" = "Tuesday";
+"wednesday" = "Wednesday";
+"thursday" = "Thursday";
+"friday" = "Friday";
+"saturday" = "Saturday";
+"sunday" = "Sunday";
+
+"mondayShort" = "Mon";
+"tuesdayShort" = "Tues";
+"wednesdayShort" = "Wed";
+"thursdayShort" = "Thurs";
+"fridayShort" = "Fri";
+"saturdayShort" = "Sat";
+"sundayShort" = "Sun";
+

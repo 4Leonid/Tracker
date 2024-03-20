@@ -26,10 +26,10 @@ final class ScheduleViewController: UIViewController {
   private lazy var readyButton: UIButton = {
     let button = UIButton()
     button.translatesAutoresizingMaskIntoConstraints = false
-    button.backgroundColor = . yaBlack
+    button.backgroundColor = .yaBlack
     button.setTitleColor(.yaWhite, for: .normal)
     button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
-    button.setTitle("Готово", for: .normal)
+    button.setTitle("addCategoryVC_confirmButtonText".localized, for: .normal)
     button.layer.cornerRadius = 16
     button.addTarget(self, action: #selector(didTapRdyButton), for: .touchUpInside)
     return button
@@ -53,7 +53,7 @@ final class ScheduleViewController: UIViewController {
   // MARK: - Lifecycle
   override func viewDidLoad() {
     super.viewDidLoad()
-    title = "Расписание"
+    title = "settingTrackerVC_skedParamLabel".localized
     view.backgroundColor = .yaWhite
     setupDelegates()
     addSubView()
@@ -144,6 +144,5 @@ extension ScheduleViewController: ScheduleCellDelegate {
     }
   }
 }
-
 
 

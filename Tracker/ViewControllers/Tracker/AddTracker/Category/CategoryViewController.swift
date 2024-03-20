@@ -30,7 +30,7 @@ final class CategoryViewController: UIViewController {
     button.backgroundColor = .yaBlack
     button.setTitleColor(.yaWhite, for: .normal)
     button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
-    button.setTitle("Добавить категорию", for: .normal)
+    button.setTitle("categoryVC_addCategoryButton".localized, for: .normal)
     button.layer.cornerRadius = 16
     button.addTarget(self, action: #selector(didTapAddButton), for: .touchUpInside)
     return button
@@ -61,10 +61,8 @@ final class CategoryViewController: UIViewController {
     viewModel.loadCategories()
     categoryPlaceholder.configure(
       name: "starPlaceholder",
-      text: """
-            Привычки и события можно
-            объединить по смыслу
-            """)
+      text: "categoryVC_placeholderText".localized
+    )
   }
   
   
@@ -74,7 +72,7 @@ final class CategoryViewController: UIViewController {
   }
   
   private func viewSetting() {
-    title = "Категория"
+    title = "settingTrackerVC_categoryParamLabel".localized
     view.backgroundColor = .yaWhite
     categoryTableView.dataSource = self
     categoryTableView.delegate = self
@@ -113,11 +111,11 @@ final class CategoryViewController: UIViewController {
   }
   
   private func deleteCategory(from category: TrackerCategory) {
-    let alert = UIAlertController(title: nil, message: "Эта категория точно не нужна?", preferredStyle: .actionSheet)
-    let deleteAction = UIAlertAction(title: "Удалить", style: .destructive) { [weak self] _ in
+    let alert = UIAlertController(title: nil, message: "categoryVC_alertMessageWhenDeleteCategory".localized, preferredStyle: .actionSheet)
+    let deleteAction = UIAlertAction(title: "categoryVC_alertActionDelete".localized, style: .destructive) { [weak self] _ in
       self?.viewModel.deleteCategory(category: category)
     }
-    let cancelAction = UIAlertAction(title: "Отменить", style: .cancel)
+    let cancelAction = UIAlertAction(title: "categoryVC_alertActionCancel".localized, style: .cancel)
     alert.addAction(deleteAction)
     alert.addAction(cancelAction)
     present(alert, animated: true)
@@ -153,10 +151,10 @@ extension CategoryViewController: UITableViewDataSource {
     
     return UIContextMenuConfiguration(actionProvider: { _ in
       UIMenu(children: [
-        UIAction(title: "Редактировать") { [weak self] _ in
+        UIAction(title: "categoryVC_alertActionEdit".localized) { [weak self] _ in
           self?.editCategory(from: category)
         },
-        UIAction(title: "Удалить", attributes: .destructive) { [weak self] _ in
+        UIAction(title: "categoryVC_alertActionDelete".localized, attributes: .destructive) { [weak self] _ in
           self?.deleteCategory(from: category)
         }
       ])

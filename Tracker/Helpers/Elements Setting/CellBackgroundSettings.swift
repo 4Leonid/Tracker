@@ -60,7 +60,8 @@ final class CellBackgroundSetting: UIView {
     case .bottom:
       layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
     case .common:
-      break
+      cellViewBoard.isHidden = true
+      layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMaxXMaxYCorner, .layerMinXMaxYCorner]
     }
   }
 }

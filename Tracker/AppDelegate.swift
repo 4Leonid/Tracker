@@ -12,6 +12,7 @@ import CoreData
 class AppDelegate: UIResponder, UIApplicationDelegate {
   
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    AnalyticsService.appDelegateSetup()
     return true
   }
   
@@ -24,7 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
   }
   
-  // MARK: - PersistenContainer
+  // MARK: PersistentContainer
   lazy var persistentContainer: NSPersistentContainer = {
     let container = NSPersistentContainer(name: "CoreData")
     container.loadPersistentStores(completionHandler: { (storeDescription, error) in

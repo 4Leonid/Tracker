@@ -13,7 +13,7 @@ final class TrackerViewController: UIViewController {
   private lazy var titleLabel: UILabel = {
     let titleLabel = UILabel()
     titleLabel.translatesAutoresizingMaskIntoConstraints = false
-    titleLabel.text = "Трекеры"
+    titleLabel.text = "trackerVC_title".localized
     titleLabel.font = UIFont.systemFont(ofSize: 34, weight: .bold)
     titleLabel.textColor = .yaBlack
     return titleLabel
@@ -35,7 +35,7 @@ final class TrackerViewController: UIViewController {
     let searchBar = UISearchBar()
     searchBar.translatesAutoresizingMaskIntoConstraints = false
     searchBar.searchBarStyle = .minimal
-    searchBar.placeholder = "Поиск"
+    searchBar.placeholder = "trackerVC_search".localized
     return searchBar
   }()
   
@@ -47,7 +47,7 @@ final class TrackerViewController: UIViewController {
     datePicker.datePickerMode = .date
     datePicker.preferredDatePickerStyle = .compact
     datePicker.calendar = Calendar(identifier: .iso8601)
-    datePicker.locale = Locale(identifier: "ru_RU")
+    datePicker.locale = Locale(identifier: "trackerVC_datepicker".localized)
     
     datePicker.addTarget(self, action: #selector(didChangeDate), for: .valueChanged)
     return datePicker
@@ -67,9 +67,10 @@ final class TrackerViewController: UIViewController {
     button.translatesAutoresizingMaskIntoConstraints = false
     button.tintColor = .white
     button.backgroundColor = .yaBlue
-    button.setTitle("Фильтры", for: .normal)
+    button.setTitle("trackerVC_filter".localized, for: .normal)
     button.layer.cornerRadius = 16
     button.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .regular)
+    button.addTarget(self, action: #selector(didTapFilterButton), for: .touchUpInside)
     return button
   }()
   
@@ -80,12 +81,15 @@ final class TrackerViewController: UIViewController {
   private var categories = [TrackerCategory]()
   private var completedTrackers: Set<TrackerRecord> = []
   private var currentDate = Date()
-  private let trackerStore = TrackerStore()
+  private var trackerStore: TrackerStoreProtocol
   private let trackerCategoryStore = TrackerCategoryStore()
   private let trackerRecordStore = TrackerRecordStore()
+  private let analyticsService = AnalyticsService()
+  private var editTracker: Tracker?
+  private var currentFilter: Filter = .all
   private var searchText = "" {
     didSet {
-      try? trackerStore.currentlyTrackers(date: currentDate.timeLess(), searchString: searchText)
+      try? trackerStore.currentlyTrackers(date: currentDate, searchString: searchText, filter: currentFilter)
     }
   }
   private let geomentricParams = UICollectionView.GeometricParams(
@@ -94,6 +98,15 @@ final class TrackerViewController: UIViewController {
     rightInset: 16,
     cellSpacing: 9)
   
+  // MARK: - Initializer
+  init(trackerStore: TrackerStoreProtocol) {
+    self.trackerStore = trackerStore
+    super.init(nibName: nil, bundle: nil)
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
   // MARK: - Lifecycle
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -101,14 +114,24 @@ final class TrackerViewController: UIViewController {
     hideKeyboard()
     addSubViews()
     applyConstraint()
-    defaultPlaceholder.configure(name: "starPlaceholder", text: "Что будем отслеживать?")
-    searchPlaceholder.configure(name: "monoclePlaceholder", text: "Ничего не найдено")
+    defaultPlaceholder.configure(name: "starPlaceholder", text: "trackerVC_placeholderTextDefault".localized)
+    searchPlaceholder.configure(name: "monoclePlaceholder", text: "trackerVC_placeholderTextSearch".localized)
     placeholderCheckForEmpty()
     placeholderCheckForSearch()
     setupDelegates()
-    try? trackerStore.currentlyTrackers(date: currentDate.timeLess(), searchString: searchText)
-    try? trackerRecordStore.takeCompletedTrackers(with: currentDate.timeLess())
+    try? trackerStore.currentlyTrackers(date: currentDate, searchString: searchText, filter: currentFilter)
+    try? trackerRecordStore.takeCompletedTrackers(with: currentDate)
     showFilterButton()
+  }
+  
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+    analyticsService.didApper()
+  }
+  
+  override func viewDidDisappear(_ animated: Bool) {
+    super.viewDidDisappear(animated)
+    analyticsService.didDisappear()
   }
   
   // MARK: - Layout & Setting
@@ -169,18 +192,28 @@ extension TrackerViewController {
     createTrack.delegate = self
     let navigationController = UINavigationController(rootViewController: createTrack)
     present(navigationController, animated: true)
+    analyticsService.tapPlusButton()
   }
   
   @objc private func didChangeDate(_ sender: UIDatePicker) {
     currentDate = sender.date
     execButtonIsEnableValue = isDateinPast(currentDate)
     do {
-      try trackerStore.currentlyTrackers(date: currentDate, searchString: searchText)
+      try trackerStore.currentlyTrackers(date: currentDate, searchString: searchText, filter: currentFilter)
       try trackerRecordStore.takeCompletedTrackers(with: currentDate)
     } catch {
       print(TrackerError.decodeError)
     }
     collectionView.reloadData()
+  }
+  
+  @objc private func didTapFilterButton() {
+    analyticsService.tapFilterButton()
+    let filterVC = FilterViewController(selectedFilter: currentFilter)
+    filterVC.delegate = self
+    let navigationController = UINavigationController(rootViewController: filterVC)
+    navigationController.modalPresentationStyle = .pageSheet
+    present(navigationController, animated: true)
   }
   
   private func isDateinPast(_ date: Date) -> Bool {
@@ -198,11 +231,15 @@ extension TrackerViewController {
   }
   
   private func showFilterButton() {
-    if trackerStore.trackersCount == 0 {
-      filterButton.isHidden = true
-    } else {
-      filterButton.isHidden = false
-    }
+    filterButton.isHidden = trackerStore.trackersCount == 0 && currentFilter == .all
+  }
+  
+  private func navigationToSettingTrackerVC(version: CreatingTrackerViewController.TrackerVersion, actionType: SettingTrackerViewController.SetAction, data: Tracker.Data? = nil) {
+    let settingTracker = SettingTrackerViewController(version: version, actionType: actionType, data: data)
+    settingTracker.delegate = self
+    let navigationController = UINavigationController(rootViewController: settingTracker)
+    navigationController.isModalInPresentation = true
+    present(navigationController, animated: true)
   }
 }
 
@@ -210,12 +247,13 @@ extension TrackerViewController {
 extension TrackerViewController: TrackerCellDelegate {
   func didTapExecButton(cell: TrackerCell, with tracker: Tracker) {
     if execButtonIsEnableValue == true {
-      if let recordingTracker = completedTrackers.first(where: { $0.date.timeLess() == currentDate.timeLess() && $0.trackerId == tracker.id }) {
+      analyticsService.tapTrackerDayButton()
+      if let recordingTracker = completedTrackers.first(where: { $0.date == currentDate && $0.trackerId == tracker.id && $0.complited == true }) {
         try? trackerRecordStore.delete(recordingTracker)
         cell.changeImageButton(active: false)
         cell.addOrSubtrack(value: false)
       } else {
-        let trackerRecord = TrackerRecord(date: currentDate, trackerId: tracker.id)
+        let trackerRecord = TrackerRecord(date: currentDate, trackerId: tracker.id, complited: true)
         try? trackerRecordStore.add(trackerRecord)
         cell.changeImageButton(active: true)
         cell.addOrSubtrack(value: true)
@@ -225,9 +263,13 @@ extension TrackerViewController: TrackerCellDelegate {
       let dateFormatter = DateFormatter()
       dateFormatter.dateFormat = "dd.MM.yyyy"
       let todayFormDate = dateFormatter.string(from: date)
-      let selectedDate = dateFormatter.string(from: currentDate.timeLess())
-      let alert = UIAlertController(title: "Сегодня - \(todayFormDate)г.", message: "Нельзя выполнить действие - \(selectedDate)г., т.к. данный период времени еще не наступил!", preferredStyle: .alert)
-      alert.addAction(UIAlertAction(title: "Понятно", style: .default, handler: nil))
+      let selectedDate = dateFormatter.string(from: currentDate)
+      
+      let localizedTitleString = String(format: "trackerVC_alertTitle".localized, todayFormDate)
+      let localizedMessageString = String(format: "trackerVC_alertMessage".localized, selectedDate)
+      
+      let alert = UIAlertController(title: localizedTitleString, message: localizedMessageString, preferredStyle: .alert)
+      alert.addAction(UIAlertAction(title: "trackerVC_alertActionTitle".localized, style: .default, handler: nil))
       present(alert, animated: true, completion: nil)
     }
   }
@@ -248,12 +290,12 @@ extension TrackerViewController: UICollectionViewDataSource {
     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TrackerCell.identifier, for: indexPath) as? TrackerCell,
           let tracker = trackerStore.object(at: indexPath)
     else { return UICollectionViewCell() }
-    let active = completedTrackers.contains { $0.date.timeLess() == currentDate.timeLess() && $0.trackerId == tracker.id }
-    cell.configure(with: tracker, days: tracker.daysCount, active: active)
+    let active = completedTrackers.contains { $0.date == currentDate && $0.trackerId == tracker.id && $0.complited == true }
+    let interaction = UIContextMenuInteraction(delegate: self)
+    cell.configure(with: tracker, days: tracker.daysCount, active: active, interaction: interaction)
     cell.delegate = self
     return cell
   }
-  
 }
 
 // MARK: - Extension DelegateFlowLayout
@@ -291,8 +333,18 @@ extension TrackerViewController: UICollectionViewDelegateFlowLayout {
 }
 
 // MARK: - Extension Controller Delegate
-extension TrackerViewController: CreatingTrackerViewControllerDelegate, SettingTrackerViewControllerDelegate {
+extension TrackerViewController: CreatingTrackerViewControllerDelegate,
+                                 SettingTrackerViewControllerDelegate, FilterViewControllerDelegate {
+  func didUpdateTracker(with data: Tracker.Data) {
+    guard let editTracker else { return }
+    dismiss(animated: true)
+    try? trackerStore.editTracker(tracker: editTracker, data: data)
+    self.editTracker = nil
+  }
+  
   func didTapCancelButton() {
+    collectionView.reloadData()
+    self.editTracker = nil
     dismiss(animated: true)
   }
   
@@ -303,10 +355,35 @@ extension TrackerViewController: CreatingTrackerViewControllerDelegate, SettingT
   
   func didCreateTracker(with version: CreatingTrackerViewController.TrackerVersion) {
     dismiss(animated: true)
-    let settingTracker = SettingTrackerViewController(version: version)
-    settingTracker.delegate = self
-    let navigationController = UINavigationController(rootViewController: settingTracker)
-    present(navigationController, animated: true)
+    navigationToSettingTrackerVC(version: version, actionType: .add)
+  }
+  
+  func setFilter(filter: Filter) {
+    self.currentFilter = filter
+    switch currentFilter {
+    case .all:
+      try? trackerStore.currentlyTrackers(date: currentDate, searchString: searchText, filter: .all)
+      try? trackerRecordStore.takeCompletedTrackers(with: currentDate)
+    case .today:
+      if datePicker.date != Date() {
+        datePicker.setDate(Date(), animated: true)
+        do {
+          try trackerStore.currentlyTrackers(date: Date(), searchString: searchText, filter: .today)
+          try trackerRecordStore.takeCompletedTrackers(with: Date())
+          currentDate = Date()
+        } catch {
+          print(TrackerError.decodeError)
+        }
+        collectionView.reloadData()
+      }
+    case .finished:
+      try? trackerStore.takeTrackersForFilter(date: currentDate)
+      try? trackerRecordStore.takeCompletedTrackers(with: currentDate)
+    case .unfinished:
+      try? trackerStore.currentlyTrackers(date: currentDate, searchString: searchText, filter: currentFilter)
+      try? trackerRecordStore.takeCompletedTrackers(with: currentDate)
+    }
+    dismiss(animated: true)
   }
 }
 
@@ -345,8 +422,6 @@ extension TrackerViewController: TrackerStoreDelegate, TrackerRecordStoreDelegat
   func didUpdateRecord(records: Set<TrackerRecord>) {
     completedTrackers = records
   }
-  
-  
 }
 
 // MARK: - Extension Recognizer
@@ -359,6 +434,46 @@ extension TrackerViewController {
   
   @objc func dismissKeyboard() {
     view.endEditing(true)
+  }
+}
+
+// MARK: - Extension - Context Menu For Tracker
+extension TrackerViewController: UIContextMenuInteractionDelegate {
+  func contextMenuInteraction(
+    _ interaction: UIContextMenuInteraction,
+    configurationForMenuAtLocation location: CGPoint
+  ) -> UIContextMenuConfiguration? {
+    guard
+      let location = interaction.view?.convert(location, to: collectionView),
+      let indexPath = collectionView.indexPathForItem(at: location),
+      let tracker = trackerStore.object(at: indexPath)
+    else { return nil }
+    
+    return UIContextMenuConfiguration(actionProvider: { actions in
+      UIMenu(children: [
+        UIAction(title: tracker.attach ? "trackerVC_alertActionUnPin".localized : "trackerVC_alertActionPin".localized) { [weak self] _ in
+          try? self?.trackerStore.turnAttach(tracker: tracker)
+        },
+        UIAction(title: "categoryVC_alertActionEdit".localized) { [weak self] _ in
+          let version: CreatingTrackerViewController.TrackerVersion = tracker.sked == nil ? .event : .habit
+          self?.editTracker = tracker
+          self?.navigationToSettingTrackerVC(version: version, actionType: .edit, data: tracker.data)
+          self?.analyticsService.editTracker()
+        },
+        UIAction(title: "categoryVC_alertActionDelete".localized, attributes: .destructive) { [weak self] _ in
+          let alert = UIAlertController(title: nil, message: "trackerVC_alertActionMessage".localized, preferredStyle: .actionSheet)
+          let cancel = UIAlertAction(title: "categoryVC_alertActionCancel".localized, style: .cancel)
+          let delete = UIAlertAction(title: "categoryVC_alertActionDelete".localized, style: .destructive) { [weak self] _ in
+            guard let self = self else { return }
+            try? self.trackerStore.deleteTracker(tracker: tracker)
+            self.analyticsService.deleteTracker()
+          }
+          alert.addAction(cancel)
+          alert.addAction(delete)
+          self?.present(alert, animated: true)
+        }
+      ])
+    })
   }
 }
 

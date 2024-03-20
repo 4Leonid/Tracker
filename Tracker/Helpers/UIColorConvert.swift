@@ -29,6 +29,6 @@ final class UIColorConvert {
       let a = CGFloat(hexNumber & 0x000000FF) / 255
       return UIColor(red: r, green: g, blue: b, alpha: a)
     }
-    return nil 
+    return nil
   }
 }

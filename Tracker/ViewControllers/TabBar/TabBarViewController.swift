@@ -9,6 +9,7 @@ import UIKit
 
 final class TabBarViewController: UITabBarController {
   
+  private let trackerStore = TrackerStore()
   // MARK: - Lifecycle
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -26,16 +27,16 @@ final class TabBarViewController: UITabBarController {
     tabBar.layer.shadowOffset = CGSize(width: 0, height: -0.5)
     tabBar.layer.shadowRadius = 0
     
-    let trackerViewController = TrackerViewController()
+    let trackerViewController = TrackerViewController(trackerStore: trackerStore)
     trackerViewController.tabBarItem = UITabBarItem(
-      title: "Трекеры",
+      title: "trackerVC_title".localized,
       image: UIImage(named: "trackerImage"),
       selectedImage: nil
     )
     
     let statisticViewController = StatisticViewController()
     statisticViewController.tabBarItem = UITabBarItem(
-      title: "Статистика",
+      title: "statisticVC_title".localized,
       image: UIImage(named: "statisticImage"),
       selectedImage: nil
     )
