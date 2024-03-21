@@ -89,7 +89,7 @@ final class TrackerViewController: UIViewController {
   private var currentFilter: Filter = .all
   private var searchText = "" {
     didSet {
-      try? trackerStore.currentlyTrackers(date: currentDate, searchString: searchText, filter: currentFilter)
+      try? trackerStore.currentlyTrackers(date: currentDate.timeLess(), searchString: searchText, filter: currentFilter)
     }
   }
   private let geomentricParams = UICollectionView.GeometricParams(
@@ -107,6 +107,7 @@ final class TrackerViewController: UIViewController {
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
+  
   // MARK: - Lifecycle
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -119,8 +120,8 @@ final class TrackerViewController: UIViewController {
     placeholderCheckForEmpty()
     placeholderCheckForSearch()
     setupDelegates()
-    try? trackerStore.currentlyTrackers(date: currentDate, searchString: searchText, filter: currentFilter)
-    try? trackerRecordStore.takeCompletedTrackers(with: currentDate)
+    try? trackerStore.currentlyTrackers(date: currentDate.timeLess(), searchString: searchText, filter: currentFilter)
+    try? trackerRecordStore.takeCompletedTrackers(with: currentDate.timeLess())
     showFilterButton()
   }
   
@@ -248,7 +249,7 @@ extension TrackerViewController: TrackerCellDelegate {
   func didTapExecButton(cell: TrackerCell, with tracker: Tracker) {
     if execButtonIsEnableValue == true {
       analyticsService.tapTrackerDayButton()
-      if let recordingTracker = completedTrackers.first(where: { $0.date == currentDate && $0.trackerId == tracker.id && $0.complited == true }) {
+      if let recordingTracker = completedTrackers.first(where: { $0.date.timeLess() == currentDate.timeLess() && $0.trackerId == tracker.id && $0.complited == true }) {
         try? trackerRecordStore.delete(recordingTracker)
         cell.changeImageButton(active: false)
         cell.addOrSubtrack(value: false)
@@ -263,7 +264,7 @@ extension TrackerViewController: TrackerCellDelegate {
       let dateFormatter = DateFormatter()
       dateFormatter.dateFormat = "dd.MM.yyyy"
       let todayFormDate = dateFormatter.string(from: date)
-      let selectedDate = dateFormatter.string(from: currentDate)
+      let selectedDate = dateFormatter.string(from: currentDate.timeLess())
       
       let localizedTitleString = String(format: "trackerVC_alertTitle".localized, todayFormDate)
       let localizedMessageString = String(format: "trackerVC_alertMessage".localized, selectedDate)
@@ -290,7 +291,7 @@ extension TrackerViewController: UICollectionViewDataSource {
     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TrackerCell.identifier, for: indexPath) as? TrackerCell,
           let tracker = trackerStore.object(at: indexPath)
     else { return UICollectionViewCell() }
-    let active = completedTrackers.contains { $0.date == currentDate && $0.trackerId == tracker.id && $0.complited == true }
+    let active = completedTrackers.contains { $0.date.timeLess() == currentDate.timeLess() && $0.trackerId == tracker.id && $0.complited == true }
     let interaction = UIContextMenuInteraction(delegate: self)
     cell.configure(with: tracker, days: tracker.daysCount, active: active, interaction: interaction)
     cell.delegate = self
