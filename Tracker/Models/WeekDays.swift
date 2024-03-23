@@ -9,32 +9,50 @@ import Foundation
 
 enum WeekDays: String, CaseIterable, Comparable {
   
-  case monday = "Понедельник"
-  case tuesday = "Вторник"
-  case wednesday = "Среда"
-  case thursday = "Четверг"
-  case friday = "Пятница"
-  case saturday = "Суббота"
-  case sunday = "Воскресенье"
+  case monday
+  case tuesday
+  case wednesday
+  case thursday
+  case friday
+  case saturday
+  case sunday
+  
+  var fullForm: String {
+    switch self {
+    case .monday:
+      return "monday".localized
+    case .tuesday:
+      return "tuesday".localized
+    case .wednesday:
+      return "wednesday".localized
+    case .thursday:
+      return "thursday".localized
+    case .friday:
+      return "friday".localized
+    case .saturday:
+      return "saturday".localized
+    case .sunday:
+      return "sunday".localized
+    }
+  }
   
   var shortcut: String {
     switch self {
     case .monday:
-      return "Пн"
+      return "mondayShort".localized
     case .tuesday:
-      return "Вт"
+      return "tuesdayShort".localized
     case .wednesday:
-      return "Ср"
+      return "wednesdayShort".localized
     case .thursday:
-      return "Чт"
+      return "thursdayShort".localized
     case .friday:
-      return "Пт"
+      return "fridayShort".localized
     case .saturday:
-      return "Сб"
+      return "saturdayShort".localized
     case .sunday:
-      return "Вс"
+      return "sundayShort".localized
     }
-    
   }
   
   static func < (lhs: WeekDays, rhs: WeekDays) -> Bool {
@@ -67,4 +85,3 @@ enum WeekDays: String, CaseIterable, Comparable {
     return weekdays
   }
 }
-

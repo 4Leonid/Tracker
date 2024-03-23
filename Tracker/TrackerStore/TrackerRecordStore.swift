@@ -50,6 +50,7 @@ final class TrackerRecordStore: NSObject {
     recordData.recordId = record.id.uuidString
     recordData.date = record.date.timeLess()
     recordData.tracker = trackerData
+    recordData.completed = record.complited
     try context.save()
     completedTrackers.insert(record)
     delegate?.didUpdateRecord(records: completedTrackers)
@@ -68,6 +69,25 @@ final class TrackerRecordStore: NSObject {
     delegate?.didUpdateRecord(records: completedTrackers)
   }
   
+  func takeCompletedTrackersForStatistic() throws -> [TrackerRecord] {
+    let request = NSFetchRequest<TrackerRecordCoreData>(entityName: "TrackerRecordCoreData")
+    let recordFetch = try context.fetch(request)
+    
+    var uniqueTrackerIds = Set<UUID>()
+    var uniqueTrackers = [TrackerRecord]()
+    
+    for coreDataRecord in recordFetch {
+      guard let record = try? createRecord(from: coreDataRecord) else {
+        continue
+      }
+      if !uniqueTrackerIds.contains(record.trackerId) {
+        uniqueTrackerIds.insert(record.trackerId)
+        uniqueTrackers.append(record)
+      }
+    }
+    return uniqueTrackers
+  }
+  
   private func createRecord(from data: TrackerRecordCoreData) throws -> TrackerRecord {
     guard let stringID = data.recordId,
           let id = UUID(uuidString: stringID),
@@ -75,6 +95,6 @@ final class TrackerRecordStore: NSObject {
           let trackerData = data.tracker,
           let tracker = try? trackerStore.createTracker(from: trackerData)
     else { throw TrackerError.decodeError }
-    return TrackerRecord(id: id, date: date, trackerId: tracker.id)
+    return TrackerRecord(id: id, date: date, trackerId: tracker.id, complited: data.completed)
   }
 }

@@ -7,8 +7,6 @@
 
 import UIKit
 
-import UIKit
-
 final class TrackerCategoryHeader: UICollectionReusableView {
   
   // MARK: - Elements

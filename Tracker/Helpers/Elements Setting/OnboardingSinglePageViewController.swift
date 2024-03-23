@@ -28,18 +28,6 @@ final class OnboardingSinglePageViewController: UIViewController {
     return label
   }()
   
-  private lazy var button: UIButton = {
-    let button = UIButton()
-    button.translatesAutoresizingMaskIntoConstraints = false
-    button.backgroundColor = .yaBlack
-    button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
-    button.setTitle("Вот это технологии!", for: .normal)
-    button.setTitleColor(.yaWhite, for: .normal)
-    button.layer.cornerRadius = 16
-    button.addTarget(nil, action: #selector(didTapButton), for: .touchUpInside)
-    return button
-  }()
-  
   // MARK: - Lifecycle
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -49,7 +37,7 @@ final class OnboardingSinglePageViewController: UIViewController {
   
   // MARK: - Layout & Setting
   private func addSubView() {
-    [onboardImage, textLabel, button].forEach { view.addSubview($0) }
+    [onboardImage, textLabel].forEach { view.addSubview($0) }
   }
   
   private func applyConstraint() {
@@ -60,21 +48,7 @@ final class OnboardingSinglePageViewController: UIViewController {
       onboardImage.bottomAnchor.constraint(equalTo: view.bottomAnchor),
       textLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
       textLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-      textLabel.topAnchor.constraint(equalTo: view.centerYAnchor, constant: 22),
-      
-      button.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-      button.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-      button.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -50),
-      button.heightAnchor.constraint(equalToConstant: 60),
+      textLabel.topAnchor.constraint(equalTo: view.centerYAnchor, constant: 22)
     ])
-  }
-}
-
-// MARK: - Actions & Methods
-extension OnboardingSinglePageViewController {
-  @objc private func didTapButton() {
-    let tabBarViewController = TabBarViewController()
-    tabBarViewController.modalPresentationStyle = .fullScreen
-    present(tabBarViewController, animated: true)
   }
 }

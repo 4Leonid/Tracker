@@ -18,6 +18,8 @@ extension UIStackView {
     label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
     label.text = text
     label.textColor = .yaBlack
+    label.numberOfLines = 2
+    label.textAlignment = .center
     self.spacing = 8
     self.axis = .vertical
     self.alignment = .center

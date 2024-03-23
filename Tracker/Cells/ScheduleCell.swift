@@ -62,7 +62,7 @@ final class ScheduleCell: UITableViewCell {
   func configure(days: WeekDays, active: Bool, position: CellBackgroundSetting.Position) {
     self.days = days
     cellView.configure(position: position)
-    nameLabel.text = days.rawValue
+    nameLabel.text = days.fullForm
     switchToggle.isOn = active
   }
 }

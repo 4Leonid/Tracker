@@ -13,13 +13,25 @@ final class OnboardingViewController: UIPageViewController {
   private lazy var pages: [UIViewController] = {
     let firstOnboardingPage = OnboardingSinglePageViewController()
     firstOnboardingPage.onboardImage.image = UIImage(named: "onboardImageFirst")
-    firstOnboardingPage.textLabel.text = "Отслеживайте только то, что хотите"
+    firstOnboardingPage.textLabel.text = "onboardingVC_firstPageText".localized
     
     let secondOnboardingPage = OnboardingSinglePageViewController()
     secondOnboardingPage.onboardImage.image = UIImage(named: "onboardImageSecond")
-    secondOnboardingPage.textLabel.text = "Даже если это не литры воды и йога"
+    secondOnboardingPage.textLabel.text = "onboardingVC_secondPageText".localized
     
     return [firstOnboardingPage, secondOnboardingPage]
+  }()
+  
+  private lazy var button: UIButton = {
+    let button = UIButton()
+    button.translatesAutoresizingMaskIntoConstraints = false
+    button.backgroundColor = .black
+    button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
+    button.setTitle("onboardingVC_button".localized, for: .normal)
+    button.setTitleColor(.white, for: .normal)
+    button.layer.cornerRadius = 16
+    button.addTarget(nil, action: #selector(didTapButton), for: .touchUpInside)
+    return button
   }()
   
   private lazy var pageControl: UIPageControl = {
@@ -41,12 +53,16 @@ final class OnboardingViewController: UIPageViewController {
   
   // MARK: - Layout & Setting
   private func addSubViews() {
-    view.addSubview(pageControl)
+    [button, pageControl].forEach { view.addSubview($0) }
   }
   
   private func applyConstraint() {
     NSLayoutConstraint.activate([
-      pageControl.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -134),
+      button.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+      button.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+      button.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -50),
+      button.heightAnchor.constraint(equalToConstant: 60),
+      pageControl.bottomAnchor.constraint(equalTo: button.topAnchor, constant: -24),
       pageControl.centerXAnchor.constraint(equalTo: view.centerXAnchor)
     ])
   }

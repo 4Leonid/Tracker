@@ -1,0 +1,91 @@
+/* 
+  Localizable.strings
+  Tracker
+
+  Created by Леонид Турко on 14.03.2024.
+  
+*/
+
+// TrackerViewController
+"trackerVC_title" = "Трекеры";
+"trackerVC_search" = "Поиск";
+"trackerVC_placeholderTextDefault" = "Что будем отслеживать?";
+"trackerVC_placeholderTextSearch" = "Ничего не найдено";
+"trackerVC_filter" = "Фильтры";
+"trackerVC_datepicker" = "ru_RU";
+"trackerVC_alertTitle" = "Сегодня %@";
+"trackerVC_alertMessage" = "Нельзя выполнить действие %@";
+"trackerVC_alertActionTitle" = "Понятно";
+"trackerVC_alertActionPin" = "Закрепить";
+"trackerVC_alertActionUnPin" = "Открепить";
+"trackerVC_alertActionMessage" = "Уверены что хотите удалить трекер?";
+
+// StatisticViewController
+"statisticVC_title" = "Статистика";
+"statisticVC_placeholderText" = "Анализировать пока нечего";
+"statisticVC_trackersCompleted" = "Трекеров завершено";
+
+// CreatingTrackerViewController
+"creatingVC_habitButton" = "Привычка";
+"creatingVC_irregularButton" = "Нерегулярное событие";
+"creatingVC_title" = "Создание трекера";
+"creatingVC_HabitTitle" = "Новая привычка";
+"creatingVC_IrregularTitle" = "Новое нерегулярное событие";
+
+// SettingTrackerViewController
+"settingTrackerVC_nameTrackerPlaceholder" = "Введите название трекера";
+"settingTrackerVC_limitMessage" = "Ограничение 38 символов";
+"settingTrackerVC_cancelButton" = "Отменить";
+"settingTrackerVC_createButton" = "Создать";
+"settingTrackerVC_skedString" = "Каждый день";
+"settingTrackerVC_categoryParamLabel" = "Категория";
+"settingTrackerVC_skedParamLabel" = "Расписание";
+"settingTrackerVC_emojiTitle" = "Emoji";
+"settingTrackerVC_colorTitle" = "Цвет";
+"settingTrackerVC_editTrackerTitle" = "Редактирование привычки";
+
+// CategoryViewController
+"categoryVC_addCategoryButton" = "Добавить категорию";
+"categoryVC_placeholderText" = "Привычки и события можно \n объединить по смыслу";
+"categoryVC_alertMessageWhenDeleteCategory" = "Эта категория точно не нужна?";
+"categoryVC_alertActionDelete" = "Удалить";
+"categoryVC_alertActionCancel" = "Отменить";
+"categoryVC_alertActionEdit" = "Редактировать";
+
+// AddCategoryViewController
+"addCategoryVC_nameCategoryPlaceholder" = "Введите название категории";
+"addCategoryVC_confirmButtonText" = "Готово";
+"addCategoryVC_title" = "Новая категория";
+
+// OnboardingViewController
+"onboardingVC_firstPageText" = "Отслеживайте только то, что хотите";
+"onboardingVC_secondPageText" = "Даже если это не литры воды и йога";
+"onboardingVC_button" = "Вот это технологии!";
+
+// TrackerStore
+"trackerStore_attach" = "Закрепленные";
+
+// FilterViewController
+"filterVC_title" = "Фильтры";
+"filterVC_all" = "Все трекеры";
+"filterVC_today" = "Трекеры на сегодня";
+"filterVC_finished" = "Завершенные";
+"filterVC_unfinished" = "Не завершенные";
+
+// WeekDays
+"monday" = "Понедельник";
+"tuesday" = "Вторник";
+"wednesday" = "Среда";
+"thursday" = "Четверг";
+"friday" = "Пятница";
+"saturday" = "Суббота";
+"sunday" = "Воскресенье";
+
+"mondayShort" = "Пн";
+"tuesdayShort" = "Вт";
+"wednesdayShort" = "Ср";
+"thursdayShort" = "Чт";
+"fridayShort" = "Пт";
+"saturdayShort" = "Сб";
+"sundayShort" = "Вс";
+

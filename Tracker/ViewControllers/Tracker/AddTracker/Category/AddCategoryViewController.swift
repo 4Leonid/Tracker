@@ -15,7 +15,7 @@ final class AddCategoryViewController: UIViewController {
   
   // MARK: - Elements
   private lazy var textField: UITextField = {
-    let textField = TextFieldSetting(placeholder: "Введите название категории")
+    let textField = TextFieldSetting(placeholder: "addCategoryVC_nameCategoryPlaceholder".localized)
     textField.addTarget(self, action: #selector(didChangeTextCategory), for: .editingChanged)
     return textField
   }()
@@ -26,7 +26,7 @@ final class AddCategoryViewController: UIViewController {
     button.backgroundColor = .yaGray
     button.setTitleColor(.yaWhite, for: .normal)
     button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
-    button.setTitle("Готово", for: .normal)
+    button.setTitle("addCategoryVC_confirmButtonText".localized, for: .normal)
     button.layer.cornerRadius = 16
     button.isEnabled = false
     button.addTarget(self, action: #selector(didTapRdyButton), for: .touchUpInside)
@@ -58,7 +58,7 @@ final class AddCategoryViewController: UIViewController {
   // MARK: - Lifecycle
   override func viewDidLoad() {
     super.viewDidLoad()
-    title = "Новая категория"
+    title = "addCategoryVC_title".localized
     view.backgroundColor = .yaWhite
     addSubViews()
     applyConstraint()

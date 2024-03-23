@@ -67,10 +67,11 @@ final class TrackerCell: UICollectionViewCell {
   
   // MARK: - Properties
   weak var delegate: TrackerCellDelegate?
+  private let analyticsService = AnalyticsService()
   private var tracker: Tracker?
   private var daysCount = 0 {
     willSet {
-      daysLabel.text = newValue.daysString()
+      daysLabel.text = String.localizedStringWithFormat("AmountDays".localized, newValue)
     }
   }
   
@@ -90,18 +91,11 @@ final class TrackerCell: UICollectionViewCell {
   }
   
   // MARK: - Methods
-  override func prepareForReuse() {
-    super.prepareForReuse()
-    tracker = nil
-    daysCount = 0
-    execButton.setImage(UIImage(systemName: "plus"), for: .normal)
-    execButton.layer.opacity = 1
-  }
-  
-  func configure(with tracker: Tracker, days: Int, active: Bool) {
+  func configure(with tracker: Tracker, days: Int, active: Bool, interaction: UIInteraction) {
     self.tracker = tracker
     self.daysCount = days
     cardView.backgroundColor = tracker.color
+    cardView.addInteraction(interaction)
     emojiLabel.text = tracker.emoji
     trackerLabel.text = tracker.name
     execButton.backgroundColor = tracker.color
@@ -132,16 +126,13 @@ private extension TrackerCell {
   
   @objc func didTapExecButton() {
     guard let tracker else { return }
+    analyticsService.tapTrackerDayButton()
     delegate?.didTapExecButton(cell: self, with: tracker)
   }
   
   func addSubViews() {
-    contentView.addSubview(cardView)
-    contentView.addSubview(emojiView)
-    contentView.addSubview(emojiLabel)
-    contentView.addSubview(trackerLabel)
-    contentView.addSubview(daysLabel)
-    contentView.addSubview(execButton)
+    [cardView, trackerLabel, daysLabel, execButton].forEach { contentView.addSubview($0) }
+    [emojiView, emojiLabel, trackerLabel].forEach { cardView.addSubview($0) }
   }
   
   func applyConstraint() {
